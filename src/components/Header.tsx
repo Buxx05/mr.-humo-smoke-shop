@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { ShoppingCart, Menu, X } from "lucide-react";
+import { ShoppingCart, Menu, X, User, LogOut } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
+import { useAuth } from "@/hooks/useAuth"; // <-- Importamos la autenticación
 import CartSheet from "./CartSheet";
 
 const navLinks = [
@@ -17,6 +18,9 @@ const Header = () => {
   const [cartOpen, setCartOpen] = useState(false);
   const { totalItems, justAdded } = useCart();
   const location = useLocation();
+  
+  // Extraemos la sesión y la función para cerrar sesión
+  const { session, role, signOut } = useAuth(); 
 
   return (
     <>
@@ -26,7 +30,7 @@ const Header = () => {
             MR. HUMO
           </Link>
 
-          {/* Desktop nav */}
+          {/* Menú de Escritorio */}
           <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
               <Link
@@ -41,7 +45,38 @@ const Header = () => {
             ))}
           </nav>
 
-          <div className="flex items-center gap-4">
+          {/* Iconos de la derecha */}
+          <div className="flex items-center gap-2 md:gap-4">
+            
+            {/* LOGICA DEL ICONO DE USUARIO */}
+            {session ? (
+              <div className="hidden md:flex items-center gap-2">
+                <Link
+                  to={role === 'super_admin' || role === 'vendedor' ? '/admin/dashboard' : '/cliente/dashboard'}
+                  className="p-2 rounded-md hover:bg-secondary transition-colors text-primary"
+                  title="Mi Panel"
+                >
+                  <User className="h-5 w-5" />
+                </Link>
+                <button
+                  onClick={() => signOut()}
+                  className="p-2 rounded-md hover:bg-secondary transition-colors text-destructive"
+                  title="Cerrar Sesión"
+                >
+                  <LogOut className="h-5 w-5" />
+                </button>
+              </div>
+            ) : (
+              <Link
+                to="/login"
+                className="hidden md:flex p-2 rounded-md hover:bg-secondary transition-colors"
+                title="Iniciar Sesión"
+              >
+                <User className="h-5 w-5" />
+              </Link>
+            )}
+
+            {/* Carrito */}
             <button
               onClick={() => setCartOpen(true)}
               className="relative p-2 rounded-md hover:bg-secondary transition-colors"
@@ -55,6 +90,7 @@ const Header = () => {
               )}
             </button>
 
+            {/* Botón de Menú Móvil */}
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               className="md:hidden p-2 rounded-md hover:bg-secondary transition-colors"
@@ -65,7 +101,7 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Mobile nav */}
+        {/* Menú Móvil */}
         {mobileOpen && (
           <nav className="md:hidden border-t border-border bg-background animate-fade-in-up">
             <div className="container py-4 flex flex-col gap-3">
@@ -81,6 +117,35 @@ const Header = () => {
                   {link.label}
                 </Link>
               ))}
+              
+              <div className="h-px bg-border my-2" /> {/* Separador */}
+
+              {/* Opciones de usuario en móvil */}
+              {session ? (
+                <>
+                  <Link
+                    to={role === 'super_admin' || role === 'vendedor' ? '/admin/dashboard' : '/cliente/dashboard'}
+                    onClick={() => setMobileOpen(false)}
+                    className="text-sm font-medium py-2 text-primary flex items-center gap-2"
+                  >
+                    <User className="h-4 w-4" /> Mi Panel
+                  </Link>
+                  <button
+                    onClick={() => { signOut(); setMobileOpen(false); }}
+                    className="text-sm font-medium py-2 text-left text-destructive flex items-center gap-2"
+                  >
+                    <LogOut className="h-4 w-4" /> Cerrar Sesión
+                  </button>
+                </>
+              ) : (
+                <Link
+                  to="/login"
+                  onClick={() => setMobileOpen(false)}
+                  className="text-sm font-medium py-2 text-primary flex items-center gap-2"
+                >
+                  <User className="h-4 w-4" /> Iniciar Sesión / Registro
+                </Link>
+              )}
             </div>
           </nav>
         )}
