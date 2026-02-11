@@ -1,4 +1,5 @@
 import { Gift } from "lucide-react";
+import { Link } from "react-router-dom"; // <-- Importamos Link de react-router
 
 const PointsSection = () => {
   return (
@@ -10,14 +11,14 @@ const PointsSection = () => {
         </h2>
         <p className="text-muted-foreground leading-relaxed">
           Por cada compra en nuestra tienda física, ganas puntos que puedes canjear por productos exclusivos.
-          ¡Entre más compras, más beneficios!
+          ¡Regístrate ahora y recibe 50 puntos de bienvenida!
         </p>
-        <a
-          href="/cliente/login.php"
+        <Link
+          to="/login"
           className="inline-flex rounded-md border border-primary px-6 py-2.5 text-sm font-semibold text-primary transition-colors hover:bg-primary hover:text-primary-foreground"
         >
-          SABER MÁS
-        </a>
+          ÚNETE AL CLUB
+        </Link>
       </div>
     </section>
   );
