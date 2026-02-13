@@ -4,18 +4,24 @@ import { Search, Loader2 } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
 import { supabase } from "@/lib/supabase";
 
-// Recreamos las categorías con emojis para no perder el diseño visual
-const categorias = [
-  { nombre: "Vapers", emoji: "💨" },
-  { nombre: "Líquidos", emoji: "💧" },
-  { nombre: "Accesorios", emoji: "🛠️" },
-  { nombre: "Tabaco", emoji: "🌿" },
-];
+// Categorías con subcategorías (coincide con el inventario)
+const CATEGORIES: Record<string, string[]> = {
+  Vapers: ["Desechables", "Recargables", "E-Liquid", "Sales de Nicotina", "Repuestos"],
+  Grinders: ["Mini Grinders", "Acrílicos", "Biodegradables", "Metálicos", "Combos Pipa + Grinder"],
+  Pipas: ["Metal", "Vidrio", "Silicona", "Artesanales"],
+  Bongs: ["Acrílicos", "Vidrio", "Silicona", "Kits"],
+  "Papeles y Blunts": ["Blunts", "Papeles 1”", "Orgánicos", "Sabores", "Celulosa"],
+  "Para Armado": ["Filtros", "Enrolladoras"],
+  "Encendedores y Accesorios": ["Encendedores", "Otros Accesorios"],
+  Otros: ["General", "Nuevos Ingresos"]
+};
 
 const Catalog = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const initialCat = searchParams.get("categoria") || "Todos";
   const [selectedCat, setSelectedCat] = useState(initialCat);
+  const [selectedSub, setSelectedSub] = useState<string | null>(null);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   
   // Nuevos estados para la base de datos
@@ -39,6 +45,7 @@ const Catalog = () => {
           marca: p.brand || '',
           precio: p.price,
           categoria: p.category,
+          subcategoria: p.subcategory || '',
           imagen: p.image_url || 'https://placehold.co/400x400/2d2d2d/FFF?text=FOTO',
           es_canjeable: p.is_redeemable // Opcional, por si quieres ponerle un badge visual luego
         }));
@@ -50,13 +57,36 @@ const Catalog = () => {
     fetchProductos();
   }, []);
 
+  // Mostrar todos los productos si está seleccionado "Todos"
+  // Si hay subcategoría, filtrar por subcategoría y categoría, pero el buscador puede sobreescribir el filtro
   const filtered = useMemo(() => {
-    return productosBD.filter((p) => {
-      const matchCat = selectedCat === "Todos" || p.categoria === selectedCat;
-      const matchSearch = p.nombre.toLowerCase().includes(search.toLowerCase()) || p.marca.toLowerCase().includes(search.toLowerCase());
-      return matchCat && matchSearch;
-    });
-  }, [selectedCat, search, productosBD]);
+    if (selectedCat === "Todos") {
+      return productosBD.filter((p) => {
+        const matchSearch = p.nombre.toLowerCase().includes(search.toLowerCase()) || p.marca.toLowerCase().includes(search.toLowerCase());
+        return matchSearch;
+      });
+    }
+    if (selectedSub) {
+      // Si hay búsqueda, mostrar productos de la subcategoría que coincidan, pero si la búsqueda no encuentra nada en esa subcategoría, buscar en toda la categoría
+      const subFiltered = productosBD.filter((p) => {
+        const matchCat = p.categoria === selectedCat;
+        const matchSub = p.subcategoria === selectedSub;
+        const matchSearch = p.nombre.toLowerCase().includes(search.toLowerCase()) || p.marca.toLowerCase().includes(search.toLowerCase());
+        return matchCat && matchSub && matchSearch;
+      });
+      if (search && subFiltered.length === 0) {
+        // Si no hay resultados en la subcategoría, buscar en toda la categoría
+        return productosBD.filter((p) => {
+          const matchCat = p.categoria === selectedCat;
+          const matchSearch = p.nombre.toLowerCase().includes(search.toLowerCase()) || p.marca.toLowerCase().includes(search.toLowerCase());
+          return matchCat && matchSearch;
+        });
+      }
+      return subFiltered;
+    }
+    // Si solo hay categoría seleccionada, no mostrar nada hasta que elija subcategoría
+    return [];
+  }, [selectedCat, selectedSub, search, productosBD]);
 
   const handleCatClick = (cat: string) => {
     setSelectedCat(cat);
@@ -88,29 +118,79 @@ const Catalog = () => {
         {/* Filtros de Categorías */}
         <div className="flex flex-wrap justify-center gap-2">
           <button
-            onClick={() => handleCatClick("Todos")}
+            onClick={() => { handleCatClick("Todos"); setSelectedSub(null); setOpenDropdown(null); }}
             className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
-              selectedCat === "Todos"
+              selectedCat === "Todos" && !selectedSub
                 ? "bg-primary text-primary-foreground"
                 : "bg-card border border-border text-muted-foreground hover:text-foreground"
             }`}
           >
             Todos
           </button>
-          {categorias.map((cat) => (
-            <button
-              key={cat.nombre}
-              onClick={() => handleCatClick(cat.nombre)}
-              className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
-                selectedCat === cat.nombre
-                  ? "bg-primary text-primary-foreground"
-                  : "bg-card border border-border text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              {cat.emoji} {cat.nombre}
-            </button>
+
+          {Object.keys(CATEGORIES).map((cat) => (
+            <div key={cat} className="relative">
+              <button
+                onClick={() => {
+                  // Abrir/cerrar menú y seleccionar categoría principal
+                  setOpenDropdown(prev => prev === cat ? null : cat);
+                  setSelectedCat(cat);
+                  setSelectedSub(null);
+                  // actualizar params
+                  if (cat === "Todos") searchParams.delete("categoria");
+                  else searchParams.set("categoria", cat);
+                  setSearchParams(searchParams);
+                }}
+                className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors flex items-center gap-2 ${
+                  selectedCat === cat && !selectedSub
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-card border border-border text-muted-foreground hover:text-foreground"
+                }`}
+              >
+                <span className="text-sm">{cat}</span>
+                <span className="text-xs opacity-70">▾</span>
+              </button>
+
+              {/* Dropdown de subcategorías */}
+              {openDropdown === cat && (
+                <div className="absolute left-0 mt-2 w-56 bg-card border border-border rounded shadow-lg z-50 py-2">
+                  {CATEGORIES[cat].map((sub) => {
+                    // Contador de productos por subcategoría
+                    const count = productosBD.filter(p => p.categoria === cat && p.subcategoria === sub).length;
+                    return (
+                      <button
+                        key={sub}
+                        onClick={() => {
+                          setSelectedCat(cat);
+                          setSelectedSub(sub);
+                          setOpenDropdown(null);
+                          searchParams.set("categoria", sub);
+                          setSearchParams(searchParams);
+                        }}
+                        className="w-full flex items-center justify-between px-3 py-2 text-sm hover:bg-muted/20"
+                      >
+                        <span className="flex items-center gap-2">
+                          <span className="text-xs text-primary">▶</span>
+                          {sub}
+                        </span>
+                        <span className="text-xs text-muted-foreground font-mono">({count})</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              )}
+            </div>
           ))}
         </div>
+
+        {/* Título de categoría/subcategoría */}
+        {selectedCat !== "Todos" && selectedSub && (
+          <div className="text-lg font-bold text-primary flex items-center gap-2 justify-center">
+            <span>{selectedCat}</span>
+            <span className="text-muted-foreground">/</span>
+            <span>{selectedSub}</span>
+          </div>
+        )}
 
         {/* Rejilla de Productos */}
         {loading ? (

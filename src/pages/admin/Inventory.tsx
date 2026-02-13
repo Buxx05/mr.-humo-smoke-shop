@@ -20,7 +20,7 @@ const CATEGORIES: Record<string, string[]> = {
   "Bongs": ["Acrílicos", "Vidrio", "Silicona", "Kits"],
   "Papeles y Blunts": ["Blunts", "Papeles 1”", "Orgánicos", "Sabores", "Celulosa"],
   "Para Armado": ["Filtros", "Enrolladoras"],
-  "Encendedores y Accesorios": ["Encendedores", "Ceniceros", "Adaptadores"],
+  "Encendedores y Accesorios": ["Encendedores", "Otros Accesorios"],
   "Otros": ["General", "Nuevos Ingresos"]
 };
 
