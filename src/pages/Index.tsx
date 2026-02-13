@@ -1,16 +1,24 @@
 import HeroSection from "@/components/HeroSection";
 import FeaturedProducts from "@/components/FeaturedProducts";
-import PointsSection from "@/components/PointsSection";
 import CategoriesSection from "@/components/CategoriesSection";
+import PointsSection from "@/components/PointsSection";
 
 const Index = () => {
   return (
-    <main>
+    <div className="min-h-screen bg-background">
+      {/* Hero Section */}
       <HeroSection />
-      <FeaturedProducts />
-      <PointsSection />
+
+      {/* Categorías */}
       <CategoriesSection />
-    </main>
+
+      {/* Productos Destacados */}
+      <FeaturedProducts />
+
+      {/* Sección de Puntos Informativa */}
+      <PointsSection />
+
+    </div>
   );
 };
 

@@ -11,7 +11,7 @@ const navLinks = [
   { label: "Combos", to: "/combos" },
   { label: "Premios", to: "/premios" },
   { label: "Nosotros", to: "/nosotros" },
-  { label: "Contacto", to: "/#contacto" },
+  { label: "Contacto", to: "/contacto" },
 ];
 
 const Header = () => {

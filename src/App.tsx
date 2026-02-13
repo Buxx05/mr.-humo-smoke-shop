@@ -16,6 +16,7 @@ import Combos from "./pages/Combos";
 import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/auth/Login";
+import Contact from "./pages/Contact";
 // Pages - Cliente
 import ClientDashboard from "./pages/client/Dashboard";
 import Redeem from "./pages/client/Redeem";
@@ -27,6 +28,7 @@ import Inventory from "./pages/admin/Inventory";
 import Vendors from "./pages/admin/Vendors";
 import Clients from "./pages/admin/Clients";
 import PointCheck from "./pages/admin/PointCheck";
+import ScrollToTop from "./components/ScrollToTop";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +40,7 @@ const App = () => (
           <Toaster />
           <Sonner />
           <BrowserRouter>
+          <ScrollToTop />
             <Routes>
               {/* GRUPO 1: RUTAS PÚBLICAS Y DE CLIENTE (Llevan Header y Footer) */}
               <Route element={<PublicLayout />}>
@@ -46,6 +49,7 @@ const App = () => (
                 <Route path="/combos" element={<Combos />} />
                 <Route path="/premios" element={<Redeem />} />
                 <Route path="/nosotros" element={<About />} />
+                <Route path="/contacto" element={<Contact />} />
                 <Route path="/login" element={<Login />} />
                 
                 {/* Rutas Cliente (Siguen usando el diseño público) */}
