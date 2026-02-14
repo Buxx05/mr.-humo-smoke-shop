@@ -1,6 +1,7 @@
+
 import { useState, useEffect, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
-import { Search, Loader2 } from "lucide-react";
+import { Search, Loader2, X, Filter } from "lucide-react";
 import ProductCard from "@/components/ProductCard";
 import { supabase } from "@/lib/supabase";
 
@@ -17,6 +18,8 @@ const CATEGORIES: Record<string, string[]> = {
 };
 
 const Catalog = () => {
+  // Drawer para filtros en móvil
+  const [showMobileFilter, setShowMobileFilter] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const initialCat = searchParams.get("categoria") || "Todos";
   const [selectedCat, setSelectedCat] = useState(initialCat);
@@ -66,25 +69,23 @@ const Catalog = () => {
         return matchSearch;
       });
     }
+    if (selectedCat && !selectedSub) {
+      // Mostrar todos los productos de la categoría seleccionada
+      return productosBD.filter((p) => {
+        const matchCat = p.categoria === selectedCat;
+        const matchSearch = p.nombre.toLowerCase().includes(search.toLowerCase()) || p.marca.toLowerCase().includes(search.toLowerCase());
+        return matchCat && matchSearch;
+      });
+    }
     if (selectedSub) {
-      // Si hay búsqueda, mostrar productos de la subcategoría que coincidan, pero si la búsqueda no encuentra nada en esa subcategoría, buscar en toda la categoría
-      const subFiltered = productosBD.filter((p) => {
+      // Mostrar solo productos de la subcategoría
+      return productosBD.filter((p) => {
         const matchCat = p.categoria === selectedCat;
         const matchSub = p.subcategoria === selectedSub;
         const matchSearch = p.nombre.toLowerCase().includes(search.toLowerCase()) || p.marca.toLowerCase().includes(search.toLowerCase());
         return matchCat && matchSub && matchSearch;
       });
-      if (search && subFiltered.length === 0) {
-        // Si no hay resultados en la subcategoría, buscar en toda la categoría
-        return productosBD.filter((p) => {
-          const matchCat = p.categoria === selectedCat;
-          const matchSearch = p.nombre.toLowerCase().includes(search.toLowerCase()) || p.marca.toLowerCase().includes(search.toLowerCase());
-          return matchCat && matchSearch;
-        });
-      }
-      return subFiltered;
     }
-    // Si solo hay categoría seleccionada, no mostrar nada hasta que elija subcategoría
     return [];
   }, [selectedCat, selectedSub, search, productosBD]);
 
@@ -115,8 +116,8 @@ const Catalog = () => {
           />
         </div>
 
-        {/* Filtros de Categorías */}
-        <div className="flex flex-wrap justify-center gap-2">
+        {/* Filtro horizontal solo en desktop/tablet */}
+        <div className="hidden sm:flex flex-wrap justify-center gap-2">
           <button
             onClick={() => { handleCatClick("Todos"); setSelectedSub(null); setOpenDropdown(null); }}
             className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors ${
@@ -127,35 +128,38 @@ const Catalog = () => {
           >
             Todos
           </button>
-
           {Object.keys(CATEGORIES).map((cat) => (
             <div key={cat} className="relative">
-              <button
-                onClick={() => {
-                  // Abrir/cerrar menú y seleccionar categoría principal
-                  setOpenDropdown(prev => prev === cat ? null : cat);
-                  setSelectedCat(cat);
-                  setSelectedSub(null);
-                  // actualizar params
-                  if (cat === "Todos") searchParams.delete("categoria");
-                  else searchParams.set("categoria", cat);
-                  setSearchParams(searchParams);
-                }}
-                className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors flex items-center gap-2 ${
-                  selectedCat === cat && !selectedSub
-                    ? "bg-primary text-primary-foreground"
-                    : "bg-card border border-border text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                <span className="text-sm">{cat}</span>
-                <span className="text-xs opacity-70">▾</span>
-              </button>
-
-              {/* Dropdown de subcategorías */}
+              <div className={`rounded-full px-4 py-1.5 text-sm font-medium transition-colors flex items-center gap-2 cursor-pointer ${
+                selectedCat === cat && !selectedSub
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-card border border-border text-muted-foreground hover:text-foreground"
+              }`}>
+                <span
+                  className="text-sm select-none"
+                  onClick={() => {
+                    setSelectedCat(cat);
+                    setSelectedSub(null);
+                    if (cat === "Todos") searchParams.delete("categoria");
+                    else searchParams.set("categoria", cat);
+                    setSearchParams(searchParams);
+                  }}
+                >
+                  {cat}
+                </span>
+                <span
+                  className="text-lg opacity-70 cursor-pointer px-1"
+                  onClick={e => {
+                    e.stopPropagation();
+                    setOpenDropdown(prev => prev === cat ? null : cat);
+                  }}
+                >
+                  ▾
+                </span>
+              </div>
               {openDropdown === cat && (
                 <div className="absolute left-0 mt-2 w-56 bg-card border border-border rounded shadow-lg z-50 py-2">
                   {CATEGORIES[cat].map((sub) => {
-                    // Contador de productos por subcategoría
                     const count = productosBD.filter(p => p.categoria === cat && p.subcategoria === sub).length;
                     return (
                       <button
@@ -183,6 +187,96 @@ const Catalog = () => {
           ))}
         </div>
 
+        {/* Botón Filtrar solo en móvil */}
+        <div className="flex sm:hidden justify-end mb-4">
+          <button
+            className="flex items-center gap-2 px-4 py-2 rounded-md bg-primary text-primary-foreground font-semibold shadow"
+            onClick={() => setShowMobileFilter(true)}
+          >
+            <Filter className="w-4 h-4" /> Filtrar
+          </button>
+        </div>
+
+        {/* Drawer lateral para filtros en móvil */}
+        {showMobileFilter && (
+          <div className="fixed inset-0 z-50 bg-black/40 flex">
+            <div className="w-[90vw] max-w-xs bg-white h-full shadow-xl flex flex-col animate-slide-in-left">
+              <div className="flex items-center justify-between px-4 py-3 border-b">
+                <span className="font-bold text-lg">Filtros</span>
+                <button onClick={() => setShowMobileFilter(false)}>
+                  <X className="w-7 h-7 text-black font-bold" strokeWidth={2.5} />
+                </button>
+              </div>
+              <div className="flex-1 overflow-y-auto px-4 py-2">
+                <div className="mb-4">
+                  <span className="block font-bold text-xs mb-2">CATEGORÍAS</span>
+                  <div className="divide-y">
+                    <button
+                      onClick={() => { handleCatClick("Todos"); setSelectedSub(null); setShowMobileFilter(false); }}
+                      className={`w-full text-left py-2 px-1 text-sm font-medium ${selectedCat === "Todos" && !selectedSub ? "text-primary" : "text-zinc-900"}`}
+                    >
+                      Todos
+                    </button>
+                    {Object.keys(CATEGORIES).map((cat) => (
+                      <div key={cat}>
+                        <div className={`w-full flex items-center justify-between py-2 px-1 text-sm font-medium cursor-pointer ${selectedCat === cat && !selectedSub ? "text-primary" : "text-zinc-900"}`}>
+                          <span
+                            onClick={() => {
+                              setSelectedCat(cat);
+                              setSelectedSub(null);
+                              setShowMobileFilter(false);
+                              if (cat === "Todos") searchParams.delete("categoria");
+                              else searchParams.set("categoria", cat);
+                              setSearchParams(searchParams);
+                            }}
+                          >{cat}</span>
+                          <span
+                            className="text-2xl px-2 opacity-70 cursor-pointer"
+                            onClick={e => {
+                              e.stopPropagation();
+                              setOpenDropdown(prev => prev === cat ? null : cat);
+                            }}
+                          >▾</span>
+                        </div>
+                        {/* Subcategorías desplegables */}
+                        {openDropdown === cat && (
+                          <div className="pl-4 pb-2">
+                            {CATEGORIES[cat].map((sub) => {
+                              const count = productosBD.filter(p => p.categoria === cat && p.subcategoria === sub).length;
+                              return (
+                                <button
+                                  key={sub}
+                                  onClick={() => {
+                                    setSelectedCat(cat);
+                                    setSelectedSub(sub);
+                                    setOpenDropdown(null);
+                                    setShowMobileFilter(false);
+                                    searchParams.set("categoria", sub);
+                                    setSearchParams(searchParams);
+                                  }}
+                                  className={`w-full flex items-center justify-between py-1 px-1 text-xs hover:bg-muted/20 ${selectedSub === sub && selectedCat === cat ? "text-primary font-bold" : "text-zinc-900"}`}
+                                >
+                                  <span className="flex items-center gap-2">
+                                    <span className="text-xs text-primary">▶</span>
+                                    {sub}
+                                  </span>
+                                  <span className="text-xs text-muted-foreground font-mono">({count})</span>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* Fondo para cerrar el drawer */}
+            <div className="flex-1" onClick={() => setShowMobileFilter(false)} />
+          </div>
+        )}
+
         {/* Título de categoría/subcategoría */}
         {selectedCat !== "Todos" && selectedSub && (
           <div className="text-lg font-bold text-primary flex items-center gap-2 justify-center">
@@ -199,7 +293,7 @@ const Catalog = () => {
             <p>Cargando catálogo...</p>
           </div>
         ) : filtered.length > 0 ? (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4">
             {filtered.map((p) => (
               <ProductCard key={p.id} product={p} />
             ))}
