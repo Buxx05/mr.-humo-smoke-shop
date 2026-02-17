@@ -15,7 +15,7 @@ const BrandsCarousel = () => {
     <div className="py-12 bg-black border-y border-white/10 overflow-hidden">
       <div className="container mx-auto px-4 mb-8 text-center">
         <p className="text-sm font-bold text-muted-foreground uppercase tracking-widest">
-          Trabajamos con las mejores marcas del mercado.
+          Trabajamos con las mejores marcas del mercado
         </p>
       </div>
 
