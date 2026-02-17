@@ -168,44 +168,51 @@ const Redeem = () => {
           <section>
             <h3 className="text-2xl font-bold font-heading mb-6 text-center">Niveles de Canje</h3>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              {/* Nivel 1 */}
-              <Card className="border-green-200 bg-green-50/50">
+              {/* Nivel Aficionado */}
+              <Card className="border-blue-200 bg-blue-50/50">
                 <CardHeader className="text-center pb-2">
-                  <Badge variant="outline" className="mx-auto border-green-500 text-green-700 bg-green-100 mb-2">NIVEL 1</Badge>
-                  <CardTitle className="text-3xl font-bold text-green-700">300 Pts</CardTitle>
+                  <Badge variant="outline" className="mx-auto border-blue-500 text-blue-700 bg-blue-100 mb-2 gap-1">
+                    <span>💨</span> RANGO AFICIONADO
+                  </Badge>
+                  <CardTitle className="text-3xl font-bold text-blue-700">300 Pts</CardTitle>
                   <CardDescription>Premios Pequeños</CardDescription>
                 </CardHeader>
-                <CardContent className="text-center text-sm text-green-800 space-y-2">
+                <CardContent className="text-center text-sm text-blue-800 space-y-2">
                   <p>• Accesorios básicos</p>
                   <p>• Pods de repuesto</p>
                   <p>• Descuentos seleccionados</p>
                 </CardContent>
               </Card>
 
-              {/* Nivel 2 */}
-              <Card className="border-blue-200 bg-blue-50/50 relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-16 h-16 bg-blue-200 rounded-bl-full opacity-50"></div>
+              {/* Nivel Experto */}
+              <Card className="border-purple-200 bg-purple-50/50 relative overflow-hidden">
+                <div className="absolute top-0 right-0 w-16 h-16 bg-purple-200 rounded-bl-full opacity-50"></div>
                 <CardHeader className="text-center pb-2 relative z-10">
-                  <Badge variant="outline" className="mx-auto border-blue-500 text-blue-700 bg-blue-100 mb-2">NIVEL 2</Badge>
-                  <CardTitle className="text-3xl font-bold text-blue-700">600 Pts</CardTitle>
+                  <Badge variant="outline" className="mx-auto border-purple-500 text-purple-700 bg-purple-100 mb-2 gap-1">
+                    <span>🔥</span> RANGO EXPERTO
+                  </Badge>
+                  <CardTitle className="text-3xl font-bold text-purple-700">600 Pts</CardTitle>
                   <CardDescription>Premios Medianos</CardDescription>
                 </CardHeader>
-                <CardContent className="text-center text-sm text-blue-800 space-y-2 relative z-10">
+                <CardContent className="text-center text-sm text-purple-800 space-y-2 relative z-10">
                   <p>• Accesorios Premium</p>
                   <p>• Líquidos pequeños</p>
                   <p>• Descuentos especiales</p>
                 </CardContent>
               </Card>
 
-              {/* Nivel 3 */}
-              <Card className="border-purple-200 bg-purple-50/50 relative overflow-hidden shadow-lg border-2">
-                 <div className="absolute -top-10 -right-10 w-32 h-32 bg-purple-200 rounded-full blur-2xl opacity-50"></div>
+              {/* Nivel Leyenda */}
+              <Card className="border-amber-200 bg-amber-50/50 relative overflow-hidden shadow-lg border-2">
+                 <div className="absolute -top-10 -right-10 w-32 h-32 bg-amber-200 rounded-full blur-2xl opacity-50"></div>
                 <CardHeader className="text-center pb-2 relative z-10">
-                  <div className="flex justify-center mb-2"><Crown className="w-6 h-6 text-purple-600 animate-pulse" /></div>
-                  <CardTitle className="text-4xl font-black text-purple-700 font-heading">1000 Pts</CardTitle>
-                  <CardDescription className="text-purple-600 font-bold">PREMIOS ESPECIALES</CardDescription>
+                  <div className="flex justify-center mb-2"><Crown className="w-6 h-6 text-amber-500 animate-pulse" /></div>
+                  <Badge variant="default" className="mx-auto bg-amber-500 hover:bg-amber-600 text-white mb-2 gap-1">
+                    RANGO LEYENDA
+                  </Badge>
+                  <CardTitle className="text-4xl font-black text-amber-600 font-heading">1000 Pts</CardTitle>
+                  <CardDescription className="text-amber-700 font-bold">PREMIOS ESPECIALES</CardDescription>
                 </CardHeader>
-                <CardContent className="text-center text-sm text-purple-900 space-y-2 relative z-10 font-medium">
+                <CardContent className="text-center text-sm text-amber-900 space-y-2 relative z-10 font-medium">
                   <p>• Vape económico GRATIS</p>
                   <p>• Producto Exclusivo Mr. Humo</p>
                   <p>• Acceso a merch limitado</p>

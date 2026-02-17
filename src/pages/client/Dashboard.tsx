@@ -11,12 +11,12 @@ import { format } from "date-fns";
 import { es } from "date-fns/locale";
 import { Link } from "react-router-dom";
 
-// Configuración de Niveles (Esto es lógica pura, no ocupa BD)
+// Configuración de Niveles Unificada
 const LEVELS = [
   { name: "Novato", min: 0, color: "text-gray-500", icon: "🌱" },
-  { name: "Aficionado", min: 200, color: "text-blue-500", icon: "💨" },
+  { name: "Aficionado", min: 300, color: "text-blue-500", icon: "💨" },
   { name: "Experto", min: 600, color: "text-purple-500", icon: "🔥" },
-  { name: "Leyenda", min: 1500, color: "text-amber-500", icon: "👑" },
+  { name: "Leyenda", min: 1000, color: "text-amber-500", icon: "👑" },
 ];
 
 const ClientDashboard = () => {
@@ -28,8 +28,8 @@ const ClientDashboard = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    if (user) fetchUserData();
-  }, [user]);
+    if (user?.id) fetchUserData();
+  }, [user?.id]); // <--- El gran cambio está aquí
 
   const fetchUserData = async () => {
     try {

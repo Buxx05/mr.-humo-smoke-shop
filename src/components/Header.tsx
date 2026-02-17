@@ -2,8 +2,9 @@ import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { ShoppingCart, Menu, X, User, LogOut } from "lucide-react";
 import { useCart } from "@/contexts/CartContext";
-import { useAuth } from "@/hooks/useAuth"; // <-- Importamos la autenticación
+import { useAuth } from "@/hooks/useAuth"; 
 import CartSheet from "./CartSheet";
+import { Button } from "@/components/ui/button";
 
 const navLinks = [
   { label: "Inicio", to: "/" },
@@ -49,15 +50,19 @@ const Header = () => {
           {/* Iconos de la derecha */}
           <div className="flex items-center gap-2 md:gap-4">
             
-            {/* LOGICA DEL ICONO DE USUARIO */}
+            {/* --- LOGICA DEL BOTÓN DE USUARIO (ESCRITORIO Y TABLET) --- */}
             {session ? (
               <div className="hidden md:flex items-center gap-2">
-                <Link
-                  to={role === 'super_admin' || role === 'vendedor' ? '/admin/dashboard' : '/cliente/dashboard'}
-                  className="p-2 rounded-md hover:bg-secondary transition-colors text-primary"
-                  title="Mi Panel"
-                >
-                  <User className="h-5 w-5" />
+                <Link to={role === 'super_admin' || role === 'vendedor' ? '/admin/dashboard' : '/cliente/dashboard'}>
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    className="gap-2 border-primary/50 bg-primary/10 text-primary hover:bg-primary/20 hover:border-primary transition-all h-9"
+                  >
+                    <User className="w-4 h-4" />
+                    <span className="font-bold hidden sm:inline-block">Mi Panel</span>
+                    <span className="font-bold sm:hidden">Panel</span>
+                  </Button>
                 </Link>
                 <button
                   onClick={() => signOut()}
@@ -67,13 +72,16 @@ const Header = () => {
                   <LogOut className="h-5 w-5" />
                 </button>
               </div>
-            ) : (
-              <Link
-                to="/login"
-                className="hidden md:flex p-2 rounded-md hover:bg-secondary transition-colors"
-                title="Iniciar Sesión"
-              >
-                <User className="h-5 w-5" />
+           ) : (
+              <Link to="/login" className="hidden md:block">
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  className="gap-2 bg-transparent border-transparent hover:bg-primary/10 hover:border-primary/30 hover:text-primary transition-all h-9 shadow-none"
+                >
+                  <User className="w-4 h-4" />
+                  <span className="font-medium hidden sm:inline-block">Iniciar Sesión</span>
+                </Button>
               </Link>
             )}
 
@@ -102,7 +110,7 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Menú Móvil */}
+        {/* --- MENÚ MÓVIL --- */}
         {mobileOpen && (
           <nav className="md:hidden border-t border-border bg-background animate-fade-in-up">
             <div className="container py-4 flex flex-col gap-3">
@@ -127,15 +135,16 @@ const Header = () => {
                   <Link
                     to={role === 'super_admin' || role === 'vendedor' ? '/admin/dashboard' : '/cliente/dashboard'}
                     onClick={() => setMobileOpen(false)}
-                    className="text-sm font-medium py-2 text-primary flex items-center gap-2"
+                    className="text-sm font-medium py-2 flex items-center gap-2 text-primary"
                   >
-                    <User className="h-4 w-4" /> Mi Panel
+                    <User className="h-5 w-5" />
+                    <span className="font-bold bg-primary/10 px-3 py-1 rounded-md">Ir a Mi Panel</span>
                   </Link>
                   <button
                     onClick={() => { signOut(); setMobileOpen(false); }}
                     className="text-sm font-medium py-2 text-left text-destructive flex items-center gap-2"
                   >
-                    <LogOut className="h-4 w-4" /> Cerrar Sesión
+                    <LogOut className="h-5 w-5" /> Cerrar Sesión
                   </button>
                 </>
               ) : (
@@ -144,7 +153,8 @@ const Header = () => {
                   onClick={() => setMobileOpen(false)}
                   className="text-sm font-medium py-2 text-primary flex items-center gap-2"
                 >
-                  <User className="h-4 w-4" /> Iniciar Sesión / Registro
+                  <User className="h-5 w-5" />
+                  <span className="font-bold bg-primary/10 px-3 py-1 rounded-md w-full">Iniciar Sesión / Registro</span>
                 </Link>
               )}
             </div>

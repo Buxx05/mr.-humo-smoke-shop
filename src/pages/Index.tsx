@@ -1,24 +1,24 @@
 import HeroSection from "@/components/HeroSection";
-import FeaturedProducts from "@/components/FeaturedProducts";
+import BrandsCarousel from "@/components/BrandsCarousel"; // <--- NUEVO
 import CategoriesSection from "@/components/CategoriesSection";
 import PointsSection from "@/components/PointsSection";
 
 const Index = () => {
   return (
-    <div className="min-h-screen bg-background">
-      {/* Hero Section */}
+    <main className="min-h-screen bg-background">
+      {/* 1. IMPACTO: Portada con humo y CTA */}
       <HeroSection />
 
-      {/* Categorías */}
-      <CategoriesSection />
-
-      {/* Productos Destacados */}
-      <FeaturedProducts />
-
-      {/* Sección de Puntos Informativa */}
+      {/* 4. BENEFICIO: Sistema de Puntos */}
       <PointsSection />
 
-    </div>
+      {/* 3. NAVEGACIÓN: ¿Qué quieres comprar? */}
+      <CategoriesSection />
+
+      {/* 2. CONFIANZA: Marcas destacadas (Reemplaza a FeaturedProducts) */}
+      <BrandsCarousel />
+
+    </main>
   );
 };
 

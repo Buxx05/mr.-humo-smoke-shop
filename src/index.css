@@ -6,47 +6,54 @@
 
 @layer base {
   :root {
-    --background: 0 0% 10%;
+    /* FONDO PRINCIPAL: Negro elegante / Gris muy oscuro */
+    --background: 0 0% 8%;
     --foreground: 0 0% 100%;
 
-    --card: 0 0% 17.6%;
+    /* TARJETAS Y MENÚS: Un tono sutilmente más claro que el fondo para dar profundidad */
+    --card: 0 0% 12%;
     --card-foreground: 0 0% 100%;
 
-    --popover: 0 0% 14%;
+    --popover: 0 0% 12%;
     --popover-foreground: 0 0% 100%;
 
-    --primary: 51 100% 50%;
-    --primary-foreground: 0 0% 10%;
+    /* COLOR PRINCIPAL: Verde Vibrante Mr. Humo (#99CC33) */
+    --primary: 80 60% 50%;
+    --primary-foreground: 0 0% 10%; /* Letra oscura sobre el botón verde para máximo contraste */
 
-    --secondary: 0 0% 22%;
+    /* COLOR SECUNDARIO: Gris oscuro para botones inactivos */
+    --secondary: 0 0% 18%;
     --secondary-foreground: 0 0% 100%;
 
-    --muted: 0 0% 22%;
-    --muted-foreground: 0 0% 80%;
+    --muted: 0 0% 18%;
+    --muted-foreground: 0 0% 65%;
 
-    --accent: 51 100% 50%;
+    --accent: 80 60% 50%;
     --accent-foreground: 0 0% 10%;
 
     --destructive: 0 100% 63.5%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 25%;
-    --input: 0 0% 25%;
-    --ring: 51 100% 50%;
+    --border: 0 0% 20%;
+    --input: 0 0% 20%;
+    
+    /* Anillos de foco (luces alrededor de inputs) usando tu verde */
+    --ring: 80 60% 50%;
 
     --radius: 0.5rem;
 
     --whatsapp: 142 70% 49%;
     --whatsapp-foreground: 0 0% 100%;
 
-    --sidebar-background: 0 0% 10%;
+    /* COLORES DEL PANEL DE ADMINISTRACIÓN */
+    --sidebar-background: 0 0% 8%;
     --sidebar-foreground: 0 0% 100%;
-    --sidebar-primary: 51 100% 50%;
+    --sidebar-primary: 80 60% 50%;
     --sidebar-primary-foreground: 0 0% 10%;
-    --sidebar-accent: 0 0% 22%;
+    --sidebar-accent: 0 0% 18%;
     --sidebar-accent-foreground: 0 0% 100%;
-    --sidebar-border: 0 0% 25%;
-    --sidebar-ring: 51 100% 50%;
+    --sidebar-border: 0 0% 20%;
+    --sidebar-ring: 80 60% 50%;
   }
 }
 
@@ -65,8 +72,9 @@
 }
 
 @layer utilities {
-  .text-gradient-gold {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-[hsl(51,100%,50%)] to-[hsl(40,100%,65%)];
+  /* Efecto de texto brillante con tu verde */
+  .text-gradient-green {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[hsl(80,60%,50%)] to-[hsl(90,80%,70%)];
   }
 }
 
