@@ -4,9 +4,10 @@ import Footer from "@/components/Footer";
 
 export const PublicLayout = () => {
   return (
-    <div className="flex flex-col min-h-screen">
+    // Añadimos bg-background, text-foreground y el color de selección de texto premium
+    <div className="flex flex-col min-h-screen bg-background text-foreground selection:bg-primary/30 selection:text-primary">
       <Header />
-      <main className="flex-1">
+      <main className="flex-1 w-full overflow-hidden">
         <Outlet /> {/* Aquí se renderizará la página que visite el usuario */}
       </main>
       <Footer />

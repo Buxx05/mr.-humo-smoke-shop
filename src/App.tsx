@@ -1,19 +1,23 @@
 // src/App.tsx
 import { Suspense, lazy } from "react";
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { Flame } from "lucide-react"; // Importamos el ícono de la llama
+
+// Proveedores (Contexts)
 import { CartProvider } from "@/contexts/CartContext";
 import { AuthProvider } from "@/contexts/AuthContext";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
 
-// Layouts
+// Layouts y Componentes Base
 import { PublicLayout } from "./components/layout/PublicLayout";
 import AdminLayout from "./components/layout/AdminLayout";
 import { ProtectedRoute } from "./components/layout/ProtectedRoute";
+import ScrollToTop from "./components/ScrollToTop";
 
-// Pages - Públicas (Carga inmediata)
+// Pages - Públicas (Carga inmediata para SEO y velocidad)
 import Index from "./pages/Index";
 import Catalog from "./pages/Catalog";
 import Combos from "./pages/Combos";
@@ -21,9 +25,8 @@ import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/auth/Login";
 import Contact from "./pages/Contact";
-import ScrollToTop from "./components/ScrollToTop";
 
-// Pages - Privadas (Carga Perezosa / Lazy Loading)
+// Pages - Privadas (Carga Perezosa / Lazy Loading para no saturar al usuario)
 const ClientDashboard = lazy(() => import("./pages/client/Dashboard"));
 const Redeem = lazy(() => import("./pages/client/Redeem"));
 
@@ -35,10 +38,20 @@ const Vendors = lazy(() => import("./pages/admin/Vendors"));
 const Clients = lazy(() => import("./pages/admin/Clients"));
 const PointCheck = lazy(() => import("./pages/admin/PointCheck"));
 
-// Componente de carga visual
+// --- COMPONENTE DE CARGA VIP (Loader Temático) ---
 const PageLoader = () => (
-  <div className="flex h-screen w-full items-center justify-center bg-background">
-    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-primary"></div>
+  <div className="flex h-screen w-full flex-col items-center justify-center bg-background gap-4">
+    <div className="relative">
+      {/* Brillo de fondo */}
+      <div className="absolute inset-0 bg-primary/20 blur-xl rounded-full animate-pulse"></div>
+      {/* Llama saltando */}
+      <div className="bg-primary/10 p-4 rounded-full border border-primary/20 relative z-10 animate-bounce">
+        <Flame className="w-10 h-10 text-primary" />
+      </div>
+    </div>
+    <span className="text-sm font-black tracking-widest uppercase text-muted-foreground animate-pulse">
+      Encendiendo...
+    </span>
   </div>
 );
 
@@ -56,14 +69,18 @@ const App = () => (
     <AuthProvider>
       <TooltipProvider>
         <CartProvider>
+          {/* Alertas */}
           <Toaster />
           <Sonner />
-          <BrowserRouter>
+          
+          <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <ScrollToTop />
-            {/* Suspense envuelve las rutas para mostrar el Loader mientras descargan */}
+            
+            {/* Suspense muestra el Loader mientras se descargan las páginas "lazy" */}
             <Suspense fallback={<PageLoader />}>
               <Routes>
-                {/* GRUPO 1: RUTAS PÚBLICAS Y DE CLIENTE (Llevan Header y Footer) */}
+                
+                {/* --- GRUPO 1: RUTAS PÚBLICAS Y DE CLIENTE (Llevan Header y Footer) --- */}
                 <Route element={<PublicLayout />}>
                   <Route path="/" element={<Index />} />
                   <Route path="/catalogo" element={<Catalog />} />
@@ -73,22 +90,24 @@ const App = () => (
                   <Route path="/contacto" element={<Contact />} />
                   <Route path="/login" element={<Login />} />
                   
-                  {/* Rutas Cliente (Siguen usando el diseño público) */}
+                  {/* Rutas Privadas del Cliente */}
                   <Route element={<ProtectedRoute allowedRoles={['cliente']} />}>
                     <Route path="/cliente/dashboard" element={<ClientDashboard />} />
                   </Route>
                   
-                  {/* Página 404 (Con diseño público) */}
+                  {/* Error 404 */}
                   <Route path="*" element={<NotFound />} />
                 </Route>
 
-                {/* GRUPO 2: RUTAS DE ADMIN Y VENDEDOR (Pantalla completa, SIN Header ni Footer) */}
+                {/* --- GRUPO 2: RUTAS DE ADMIN Y VENDEDOR (Pantalla completa, SIN Header ni Footer) --- */}
                 <Route element={<ProtectedRoute allowedRoles={['vendedor', 'super_admin']} />}>
                   <Route element={<AdminLayout />}>
                     <Route path="/admin/dashboard" element={<AdminDashboard />} />
                     <Route path="/admin/validador" element={<Validator />} />
                     <Route path="/admin/consulta" element={<PointCheck />} />
                     <Route path="/admin/cargar-puntos" element={<CargarPuntos />} />
+                    
+                    {/* Rutas exclusivas para Super Admin (Opcional, si quieres dividirlas en el ProtectedRoute después) */}
                     <Route path="/admin/inventario" element={<Inventory />} />
                     <Route path="/admin/vendedores" element={<Vendors />} />
                     <Route path="/admin/clientes" element={<Clients />} />
