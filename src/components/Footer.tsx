@@ -138,11 +138,11 @@ const Footer = () => {
             &copy; {new Date().getFullYear()} Mr. Humo Smoke Shop.<br className="md:hidden" /> Todos los derechos reservados.
           </p>
           <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6 text-zinc-500 font-bold uppercase tracking-wider text-[10px] md:text-xs">
-            <Link to="/contacto" className="hover:text-primary transition-colors">Términos</Link>
-            <span className="opacity-20 hidden md:inline">|</span>
-            <Link to="/contacto" className="hover:text-primary transition-colors">Privacidad</Link>
-            <span className="opacity-20 hidden md:inline">|</span>
-            <Link to="/contacto" className="hover:text-primary transition-colors">Reclamos</Link>
+            <Link to="/terminos" className="hover:text-primary transition-colors">Términos</Link>
+<span className="opacity-20 hidden md:inline">|</span>
+<Link to="/privacidad" className="hover:text-primary transition-colors">Privacidad</Link>
+<span className="opacity-20 hidden md:inline">|</span>
+<Link to="/contacto" className="hover:text-primary transition-colors">Reclamos</Link>
           </div>
         </div>
       </div>

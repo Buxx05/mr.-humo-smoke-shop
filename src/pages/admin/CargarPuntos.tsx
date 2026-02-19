@@ -57,7 +57,7 @@ const CargarPuntos = () => {
             if (dniLimpio && dniLimpio !== "00000000" && dniLimpio !== "0") {
               const puntos = Math.floor(Number(row[montoKey]));
               
-              if (!isNaN(puntos) && puntos > 0) {
+              if (!isNaN(puntos) && puntos >= 20) {
                 const puntosActuales = puntosAgrupados.get(dniLimpio) || 0;
                 puntosAgrupados.set(dniLimpio, puntosActuales + puntos);
               }

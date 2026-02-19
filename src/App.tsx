@@ -25,6 +25,11 @@ import About from "./pages/About";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/auth/Login";
 import Contact from "./pages/Contact";
+import AgeVerification from "./components/AgeVerification";
+import CookieBanner from "./components/CookieBanner";
+import Terms from "./pages/Terms";
+import Privacy from "./pages/Privacy";
+
 
 // Pages - Privadas (Carga Perezosa / Lazy Loading para no saturar al usuario)
 const ClientDashboard = lazy(() => import("./pages/client/Dashboard"));
@@ -75,7 +80,9 @@ const App = () => (
           
           <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
             <ScrollToTop />
-            
+
+            <AgeVerification />
+            <CookieBanner />
             {/* Suspense muestra el Loader mientras se descargan las páginas "lazy" */}
             <Suspense fallback={<PageLoader />}>
               <Routes>
@@ -89,6 +96,8 @@ const App = () => (
                   <Route path="/nosotros" element={<About />} />
                   <Route path="/contacto" element={<Contact />} />
                   <Route path="/login" element={<Login />} />
+                  <Route path="/terminos" element={<Terms />} />
+                  <Route path="/privacidad" element={<Privacy />} />
                   
                   {/* Rutas Privadas del Cliente */}
                   <Route element={<ProtectedRoute allowedRoles={['cliente']} />}>

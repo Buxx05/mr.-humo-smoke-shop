@@ -1,13 +1,15 @@
 // AQUÍ PONES TUS MARCAS REALES (Recuerda subir las imágenes a tu carpeta public/brands/)
 const BRANDS = [
-  { name: "Brand 1", logo: "/brands/brand1.png" }, 
-  { name: "Brand 2", logo: "/brands/brand2.png" },
-  { name: "Brand 3", logo: "/brands/brand3.jpg" },
-  { name: "Brand 4", logo: "/brands/brand4.jpg" },
-  { name: "Brand 5", logo: "/brands/brand1.png" }, // Reemplazar con marca 5
-  { name: "Brand 6", logo: "/brands/brand2.png" }, // Reemplazar con marca 6
-  { name: "Brand 7", logo: "/brands/brand3.jpg" }, // Reemplazar con marca 7
-  { name: "Brand 8", logo: "/brands/brand4.jpg" }, // Reemplazar con marca 8
+  { name: "Blunt_wrap", logo: "/brands/Blunt_wrap.png" },
+  { name: "Bob", logo: "/brands/Bob.png" }, 
+  { name: "Geek_vape", logo: "/brands/Geek_vape.png" },
+  { name: "ocb_1", logo: "/brands/ocb_1.png" },
+  { name: "show_blunt", logo: "/brands/show_blunt.png" },
+  { name: "smok", logo: "/brands/smok.png" },
+  { name: "smoking", logo: "/brands/smoking.png" },
+  { name: "vaporever", logo: "/brands/vaporever.png" },
+  { name: "VOOPOO_1", logo: "/brands/VOOPOO_1.png" },
+  { name: "Yumi", logo: "/brands/Yumi.png" },
 ];
 
 const BrandsCarousel = () => {

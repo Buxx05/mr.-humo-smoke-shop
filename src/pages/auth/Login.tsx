@@ -159,6 +159,15 @@ const Login = () => {
           `El correo ${regEmail} ya pertenece a un miembro del club. Por favor, utiliza la pestaña de "Iniciar Sesión" para entrar a tu cuenta.`
         );
       } else {
+        
+        // 👉 ¡NUEVO! Reclamar los puntos del limbo inmediatamente después de crear la cuenta
+        // Enviamos el DNI que acaba de registrar y su nuevo ID de usuario
+        await supabase.rpc('reclamar_puntos_limbo', { 
+          p_dni: regDni, 
+          p_user_id: data.user.id 
+        });
+
+        // Limpiamos el formulario y mostramos éxito
         setRegEmail("");
         setRegPassword("");
         setRegFullName("");
