@@ -1,15 +1,16 @@
 // AQUÍ PONES TUS MARCAS REALES (Recuerda subir las imágenes a tu carpeta public/brands/)
 const BRANDS = [
-  { name: "Blunt_wrap", logo: "/brands/Blunt_wrap.png" },
-  { name: "Bob", logo: "/brands/Bob.png" }, 
-  { name: "Geek_vape", logo: "/brands/Geek_vape.png" },
-  { name: "ocb_1", logo: "/brands/ocb_1.png" },
-  { name: "show_blunt", logo: "/brands/show_blunt.png" },
-  { name: "smok", logo: "/brands/smok.png" },
-  { name: "smoking", logo: "/brands/smoking.png" },
-  { name: "vaporever", logo: "/brands/vaporever.png" },
-  { name: "VOOPOO_1", logo: "/brands/VOOPOO_1.png" },
-  { name: "Yumi", logo: "/brands/Yumi.png" },
+  { name: "Blunt_wrap", logo: "/brands/BLUNT_WRAP_BE.png" },
+  { name: "Bob", logo: "/brands/BOB_BE.png" }, 
+  { name: "Geek_vape", logo: "/brands/GEEK_VAPE_BE.png" },
+  { name: "ocb_1", logo: "/brands/OCB_BE.png" },
+  { name: "show_blunt", logo: "/brands/SHOW_BE.png" },
+  { name: "smok", logo: "/brands/SMOK_BE.png" },
+  { name: "smoking", logo: "/brands/SMOKING_BE.png" },
+  { name: "Uwell", logo: "/brands/UWELL_BE.png" },
+  { name: "Vaporever", logo: "/brands/VAPOREVER_BE.png" },
+  { name: "VOOPOO", logo: "/brands/VOOPOO_BE.png" },
+  { name: "Yumi", logo: "/brands/YUMI_BE.png" },
 ];
 
 const BrandsCarousel = () => {
@@ -37,9 +38,9 @@ const BrandsCarousel = () => {
           {BRANDS.map((brand, index) => (
             <div 
               key={index} 
-              className="flex items-center justify-center w-24 md:w-32 lg:w-40 h-20 grayscale hover:grayscale-0 transition-all duration-500 opacity-40 hover:opacity-100 cursor-pointer hover:scale-110 hover:drop-shadow-[0_0_15px_rgba(153,204,51,0.3)]"
+              className="flex items-center justify-center w-32 md:w-40 lg:w-48 h-24 grayscale hover:grayscale-0 transition-all duration-500 opacity-40 hover:opacity-100 cursor-pointer hover:scale-110 hover:drop-shadow-[0_0_15px_rgba(153,204,51,0.3)]"
             >
-              <img src={brand.logo} alt={brand.name} className="max-h-12 md:max-h-16 object-contain" loading="lazy" />
+              <img src={brand.logo} alt={brand.name} className="max-h-24 md:max-h-28 object-contain" loading="lazy" />
             </div>
           ))}
 
@@ -47,9 +48,9 @@ const BrandsCarousel = () => {
           {BRANDS.map((brand, index) => (
             <div 
               key={`dup-${index}`} 
-              className="flex items-center justify-center w-24 md:w-32 lg:w-40 h-20 grayscale hover:grayscale-0 transition-all duration-500 opacity-40 hover:opacity-100 cursor-pointer hover:scale-110 hover:drop-shadow-[0_0_15px_rgba(153,204,51,0.3)]"
+              className="flex items-center justify-center w-32 md:w-40 lg:w-48 h-24 grayscale hover:grayscale-0 transition-all duration-500 opacity-40 hover:opacity-100 cursor-pointer hover:scale-110 hover:drop-shadow-[0_0_15px_rgba(153,204,51,0.3)]"
             >
-               <img src={brand.logo} alt={brand.name} className="max-h-12 md:max-h-16 object-contain" loading="lazy" />
+               <img src={brand.logo} alt={brand.name} className="max-h-24 md:max-h-28 object-contain" loading="lazy" />
             </div>
           ))}
           

@@ -9,6 +9,16 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogAction,
+  AlertDialogCancel,
+} from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import { PackagePlus, RefreshCw, Pencil, Trash2, Upload, ImageIcon, Gift, Search, ChevronLeft, ChevronRight } from "lucide-react";
 
@@ -42,6 +52,9 @@ const Inventory = () => {
   // ESTADOS DE COMBOS
   const [combos, setCombos] = useState<any[]>([]);
   const [isComboDialogOpen, setIsComboDialogOpen] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [deleteType, setDeleteType] = useState<'product' | 'combo' | null>(null);
+  const [pendingDeleteId, setPendingDeleteId] = useState<number | null>(null);
 
   // FORMULARIO PRODUCTO
   const [prodForm, setProdForm] = useState({
@@ -182,9 +195,17 @@ const Inventory = () => {
   };
 
   const deleteProduct = async (id: number) => {
-    if (!window.confirm("¿Estás seguro de eliminar este producto?")) return;
-    await supabase.from("products").delete().eq("id", id);
+    setPendingDeleteId(id);
+    setDeleteType('product');
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDeleteProduct = async () => {
+    if (pendingDeleteId === null) return;
+    await supabase.from("products").delete().eq("id", pendingDeleteId);
     fetchProducts();
+    setDeleteDialogOpen(false);
+    setPendingDeleteId(null);
   };
 
   // --- LÓGICA DE COMBOS ---
@@ -239,9 +260,17 @@ const Inventory = () => {
   };
 
   const deleteCombo = async (id: number) => {
-    if (!window.confirm("¿Eliminar combo promocional?")) return;
-    await supabase.from("combos").delete().eq("id", id);
+    setPendingDeleteId(id);
+    setDeleteType('combo');
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDeleteCombo = async () => {
+    if (pendingDeleteId === null) return;
+    await supabase.from("combos").delete().eq("id", pendingDeleteId);
     fetchCombos();
+    setDeleteDialogOpen(false);
+    setPendingDeleteId(null);
   };
 
   return (
@@ -533,6 +562,26 @@ const Inventory = () => {
           </div>
         </TabsContent>
       </Tabs>
+
+      {/* Diálogo de confirmación de eliminación */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirmar eliminación</AlertDialogTitle>
+            <AlertDialogDescription>
+              {deleteType === 'product'
+                ? '¿Estás seguro de que deseas eliminar este producto? Esta acción no se puede deshacer.'
+                : '¿Estás seguro de que deseas eliminar este combo? Esta acción no se puede deshacer.'}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction onClick={deleteType === 'product' ? confirmDeleteProduct : confirmDeleteCombo} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              Eliminar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

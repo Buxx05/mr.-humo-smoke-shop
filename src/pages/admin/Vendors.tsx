@@ -7,6 +7,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogAction,
+  AlertDialogCancel,
+} from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
 import { UserPlus, Trash2, Pencil, FileSpreadsheet, FileText, Search, ChevronLeft, ChevronRight, Phone, Mail, UserCog, RefreshCw, ShieldCheck } from "lucide-react";
 import { utils, writeFile } from "xlsx";
@@ -28,6 +38,10 @@ const Vendors = () => {
   // Paginación
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 10;
+
+  // Delete confirmation dialog
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [pendingDeleteId, setPendingDeleteId] = useState<string | null>(null);
 
   // Modales
   const [isCreateOpen, setIsCreateOpen] = useState(false);
@@ -149,9 +163,14 @@ const Vendors = () => {
 
   // --- LOGICA DE ELIMINAR ---
   const handleDelete = async (id: string) => {
-    if (!window.confirm("¡CUIDADO! ¿Estás seguro de eliminar PERMANENTEMENTE a este vendedor? Esta acción no se puede deshacer.")) return;
+    setPendingDeleteId(id);
+    setDeleteDialogOpen(true);
+  };
+
+  const confirmDelete = async () => {
+    if (pendingDeleteId === null) return;
     
-    const { error } = await supabase.rpc('eliminar_usuario_total', { user_id: id });
+    const { error } = await supabase.rpc('eliminar_usuario_total', { user_id: pendingDeleteId });
 
     if (error) {
       toast.error("Error al eliminar: " + error.message);
@@ -159,6 +178,8 @@ const Vendors = () => {
       toast.success("Vendedor eliminado del sistema.");
       fetchVendors();
     }
+    setDeleteDialogOpen(false);
+    setPendingDeleteId(null);
   };
 
   const resetForm = () => setFormData({ id: "", email: "", password: "", fullName: "", dni: "", phone: "" });
@@ -391,6 +412,24 @@ const Vendors = () => {
           </form>
         </DialogContent>
       </Dialog>
+
+      {/* Diálogo de confirmación de eliminación de vendedor */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-destructive">Eliminación Permanente</AlertDialogTitle>
+            <AlertDialogDescription>
+              ¡ATENCIÓN! Estás a punto de eliminar PERMANENTEMENTE a este vendedor del sistema. Esta acción no se puede deshacer.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction onClick={confirmDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+              Sí, Eliminar
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 };

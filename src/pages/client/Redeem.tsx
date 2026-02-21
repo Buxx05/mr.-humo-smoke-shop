@@ -6,6 +6,16 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import {
+  AlertDialog,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogAction,
+  AlertDialogCancel,
+} from "@/components/ui/alert-dialog";
 import { Separator } from "@/components/ui/separator";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Gift, AlertCircle, Info, Zap, Flame, Crown, CheckCircle2, ShoppingBag, Star } from "lucide-react";
@@ -18,6 +28,8 @@ const Redeem = () => {
   const [balance, setBalance] = useState<number>(0);
   const [products, setProducts] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [pendingProduct, setPendingProduct] = useState<any | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
 
   useEffect(() => {
     fetchRedeemData();
@@ -49,11 +61,19 @@ const Redeem = () => {
     }
   };
 
-  const handleRedeem = async (product: any) => {
+  const handleRedeem = (product: any) => {
     if (!user) return toast.error("Debes iniciar sesión para canjear.");
     if (balance < product.points_price) return toast.error("Puntos insuficientes para este premio.");
 
-    if (!window.confirm(`¿Estás seguro de canjear ${product.name} por ${product.points_price} puntos?`)) return;
+    // guardamos el producto y abrimos el diálogo de confirmación
+    setPendingProduct(product);
+    setDialogOpen(true);
+  };
+
+  const performRedeem = async () => {
+    if (!user || !pendingProduct) return;
+    const product = pendingProduct;
+    setDialogOpen(false);
 
     try {
       const { data, error } = await supabase.rpc('procesar_canje', {
@@ -66,13 +86,12 @@ const Redeem = () => {
       if (data === 'INSUFICIENTE') return toast.error("Saldo insuficiente detectado por seguridad.");
 
       toast.success("¡Canje exitoso! Tienes un nuevo cupón en tu perfil.");
-      fetchRedeemData(); 
-      // Redirigimos al dashboard para que vea su nuevo ticket
+      fetchRedeemData();
       setTimeout(() => navigate('/cliente/dashboard'), 1500);
-
     } catch (error: any) {
       toast.error("Error al procesar el canje.");
     }
+    setPendingProduct(null);
   };
 
   return (
@@ -108,6 +127,22 @@ const Redeem = () => {
           </Card>
         )}
       </div>
+
+      {/* confirmación de canje */}
+      <AlertDialog open={dialogOpen} onOpenChange={setDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Confirmar canje</AlertDialogTitle>
+            <AlertDialogDescription>
+              ¿Estás seguro de canjear {pendingProduct?.name} por {pendingProduct?.points_price} puntos?
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel>Cancelar</AlertDialogCancel>
+            <AlertDialogAction onClick={performRedeem}>Aceptar</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
 
       {/* TABS (Inicia en Catálogo por defecto) */}
       <Tabs defaultValue="catalog" className="w-full">

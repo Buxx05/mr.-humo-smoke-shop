@@ -62,7 +62,8 @@ const CategoriesSection = () => {
         
         {/* CARRUSEL DE UNA SOLA FILA (Swipe en móvil, centrado en PC) */}
         {/* Se usa [-ms-overflow-style:none] y [scrollbar-width:none] para ocultar la fea barra de scroll */}
-        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 px-4 md:px-8 pb-8 xl:justify-center [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden w-full">
+          {/* Añadimos pt-4 para dar espacio a la animación de subida */}
+        <div className="flex overflow-x-auto snap-x snap-mandatory gap-4 px-4 md:px-8 pb-8 pt-4 xl:justify-center [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden w-full">
           {categorias.map((cat) => (
             <button
               key={cat.nombre}
