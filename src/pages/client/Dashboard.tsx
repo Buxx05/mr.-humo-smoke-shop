@@ -130,7 +130,7 @@ const ClientDashboard = () => {
         </div>
         <div className="flex gap-3 w-full md:w-auto">
           <Button variant="outline" className="flex-1 md:flex-none border-green-500/30 text-green-500 hover:bg-green-500/10 hover:border-green-500 transition-colors font-bold" 
-            onClick={() => window.open("https://wa.me/51999999999?text=Hola,%20tengo%20una%20duda%20sobre%20mis%20puntos", "_blank", "noopener noreferrer")}>
+            onClick={() => window.open("https://wa.me/+51935342437?text=Hola,%20tengo%20una%20duda%20sobre%20mis%20puntos", "_blank", "noopener noreferrer")}>
             <MessageCircle className="mr-2 h-4 w-4" /> Ayuda
           </Button>
           <Link to="/premios" className="flex-1 md:flex-none">

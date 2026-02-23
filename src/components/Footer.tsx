@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { Facebook, Instagram, Music2, MapPin, Phone, ChevronRight, Store, Clock } from "lucide-react";
 
 const Footer = () => {
-  const WHATSAPP_NUMBER = "51986170583";
+  const WHATSAPP_NUMBER = "51935342437";
   
   return (
     <footer className="bg-black text-white border-t border-white/10 pt-16 md:pt-24 pb-8 relative overflow-hidden">
@@ -12,21 +12,22 @@ const Footer = () => {
 
       <div className="container mx-auto px-6 max-w-7xl relative z-10">
         
-        {/* GRID PRINCIPAL */}
+        {/* GRID PRINCIPAL REESTRUCTURADO: 4 - 2 - 3 - 3 */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-16">
           
-          {/* Columna 1: Marca y Redes (Toma 4 columnas) */}
-          <div className="lg:col-span-4 space-y-6">
+          {/* Columna 1: Marca y Redes (Toma 4 columnas para más espacio) */}
+          <div className="lg:col-span-4 space-y-6 flex flex-col items-start">
             <Link to="/" className="inline-block">
-              <span className="font-heading text-3xl font-black text-transparent bg-clip-text bg-gradient-to-r from-primary to-green-300 tracking-tight">
-                MR. HUMO
-              </span>
+              <img 
+                src="/logo.png" 
+                alt="Mr. Humo Logo" 
+                className="w-36 md:w-44 h-auto object-contain drop-shadow-[0_0_15px_rgba(153,204,51,0.3)] hover:scale-105 transition-transform duration-300" 
+              />
             </Link>
             <p className="text-zinc-400 text-sm leading-relaxed font-medium max-w-sm">
               Elevando la cultura del buen humo. Encuentra los mejores vapes, bongs y accesorios premium en Lima con total garantía y asesoría real.
             </p>
             
-            {/* Redes Sociales */}
             <div className="flex gap-3 pt-2">
               <a href="https://www.instagram.com/mr.humo_peru/" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300 hover:scale-110 hover:shadow-[0_0_15px_rgba(153,204,51,0.3)]">
                 <Instagram className="w-5 h-5" />
@@ -40,9 +41,9 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Columna 2: Enlaces Rápidos (Toma 2 columnas) */}
+          {/* Columna 2: Navegación (Toma 2 columnas, es más compacta) */}
           <div className="lg:col-span-2">
-            <h3 className="text-base font-black mb-6 flex items-center gap-3 text-zinc-100 uppercase tracking-widest">
+            <h3 className="text-base font-black mb-6 text-zinc-100 uppercase tracking-widest">
               Navegación
             </h3>
             <ul className="space-y-4">
@@ -51,6 +52,7 @@ const Footer = () => {
                 { name: "Catálogo", path: "/catalogo" },
                 { name: "Club VIP", path: "/premios" },
                 { name: "Nuestra Historia", path: "/nosotros" },
+                { name: "Contacto", path: "/contacto" },
                 { name: "Mi Panel", path: "/cliente/dashboard" },
               ].map((link) => (
                 <li key={link.path}>
@@ -63,43 +65,36 @@ const Footer = () => {
             </ul>
           </div>
 
-          {/* Columna 3: Tiendas físicas (Toma 3 columnas) */}
+          {/* Columna 3: Tiendas (Toma 3 columnas) */}
           <div className="lg:col-span-3">
-            <h3 className="text-base font-black mb-6 flex items-center gap-3 text-zinc-100 uppercase tracking-widest">
+            <h3 className="text-base font-black mb-6 text-zinc-100 uppercase tracking-widest">
               Tiendas
             </h3>
             <div className="space-y-8">
-              {/* Tienda 1 */}
               <div className="group">
                 <h4 className="font-bold text-primary text-sm flex items-center gap-2 mb-3">
                   <Store className="w-4 h-4" /> Sede Principal
                 </h4>
-                <div className="text-zinc-400 text-sm space-y-2">
-                  <p className="flex items-start gap-3 group-hover:text-zinc-200 transition-colors">
-                    <MapPin className="w-4 h-4 shrink-0 mt-0.5 text-zinc-500" />
-                    <span>Av. Revolución 1824<br/>Villa el Salvador, Lima</span>
-                  </p>
-                </div>
+                <p className="flex items-start gap-3 text-zinc-400 text-sm group-hover:text-zinc-200 transition-colors">
+                  <MapPin className="w-4 h-4 shrink-0 mt-0.5 text-zinc-500" />
+                  <span>Villa El Salvador<br/>LIMA 42</span>
+                </p>
               </div>
-              
-              {/* Tienda 2 */}
               <div className="group">
                 <h4 className="font-bold text-primary text-sm flex items-center gap-2 mb-3">
-                  <Store className="w-4 h-4" /> Sede 2 (VES)
+                  <Store className="w-4 h-4" /> Sede Secundaria
                 </h4>
-                <div className="text-zinc-400 text-sm space-y-2">
-                  <p className="flex items-start gap-3 group-hover:text-zinc-200 transition-colors">
-                    <MapPin className="w-4 h-4 shrink-0 mt-0.5 text-zinc-500" />
-                    <span>Sector X Grupo Y<br/>Villa el Salvador, Lima</span>
-                  </p>
-                </div>
+                <p className="flex items-start gap-3 text-zinc-400 text-sm group-hover:text-zinc-200 transition-colors">
+                  <MapPin className="w-4 h-4 shrink-0 mt-0.5 text-zinc-500" />
+                  <span>Villa El Salvador<br/>LIMA 42</span>
+                </p>
               </div>
             </div>
           </div>
 
-          {/* Columna 4: Contacto WhatsApp (Toma 3 columnas) */}
+          {/* Columna 4: Atención (Toma 3 columnas) */}
           <div className="lg:col-span-3">
-            <h3 className="text-base font-black mb-6 flex items-center gap-3 text-zinc-100 uppercase tracking-widest">
+            <h3 className="text-base font-black mb-6 text-zinc-100 uppercase tracking-widest">
               Atención
             </h3>
             <ul className="space-y-5">
@@ -115,7 +110,7 @@ const Footer = () => {
                   </div>
                   <div>
                     <p className="text-[10px] font-black text-[#25D366] mb-1 uppercase tracking-widest">Chat Ventas</p>
-                    <p className="text-base font-bold text-zinc-200 group-hover:text-white transition-colors">+51 986 170 583</p>
+                    <p className="text-base font-bold text-zinc-200 group-hover:text-white transition-colors">+51 935 342 437</p>
                   </div>
                 </a>
               </li>
@@ -135,17 +130,17 @@ const Footer = () => {
 
         </div>
 
-        {/* CINTA INFERIOR (Copyright) */}
+        {/* Copyright */}
         <div className="border-t border-zinc-800 pt-8 flex flex-col md:flex-row items-center justify-between gap-6 text-xs md:text-sm">
           <p className="text-zinc-500 font-medium text-center md:text-left">
             &copy; {new Date().getFullYear()} Mr. Humo Smoke Shop.<br className="md:hidden" /> Todos los derechos reservados.
           </p>
           <div className="flex flex-wrap justify-center items-center gap-4 md:gap-6 text-zinc-500 font-bold uppercase tracking-wider text-[10px] md:text-xs">
             <Link to="/terminos" className="hover:text-primary transition-colors">Términos</Link>
-<span className="opacity-20 hidden md:inline">|</span>
-<Link to="/privacidad" className="hover:text-primary transition-colors">Privacidad</Link>
-<span className="opacity-20 hidden md:inline">|</span>
-<Link to="/contacto" className="hover:text-primary transition-colors">Reclamos</Link>
+            <span className="opacity-20 hidden md:inline">|</span>
+            <Link to="/privacidad" className="hover:text-primary transition-colors">Privacidad</Link>
+            <span className="opacity-20 hidden md:inline">|</span>
+            <Link to="/contacto" className="hover:text-primary transition-colors">Reclamos</Link>
           </div>
         </div>
       </div>

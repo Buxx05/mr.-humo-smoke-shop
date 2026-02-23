@@ -59,19 +59,28 @@ const About = () => {
 
               {/* Stats - Ajustado para no aplastarse en celulares */}
               <div className="grid grid-cols-3 gap-2 sm:gap-6 pt-6 border-t border-border/50">
-                <div className="bg-background/50 p-3 sm:p-4 rounded-xl border border-border">
-                  <div className="text-2xl sm:text-4xl font-black text-primary mb-1">7+</div>
-                  <div className="text-[10px] sm:text-xs font-bold text-muted-foreground uppercase tracking-wider">Años Exp.</div>
-                </div>
-                <div className="bg-background/50 p-3 sm:p-4 rounded-xl border border-border">
-                  <div className="text-2xl sm:text-4xl font-black text-primary mb-1">8/10</div>
-                  <div className="text-[10px] sm:text-xs font-bold text-muted-foreground uppercase tracking-wider">Prefiere MrHumo</div>
-                </div>
-                <div className="bg-background/50 p-3 sm:p-4 rounded-xl border border-border">
-                  <div className="text-2xl sm:text-4xl font-black text-primary mb-1">100%</div>
-                  <div className="text-[10px] sm:text-xs font-bold text-muted-foreground uppercase tracking-wider">Originales</div>
-                </div>
-              </div>
+  
+  {/* Tarjeta 1 */}
+  <div className="flex flex-col items-center justify-center text-center bg-background/50 p-2 sm:p-4 rounded-xl border border-border">
+    <div className="text-xl sm:text-4xl font-black text-primary mb-1 whitespace-nowrap">7+</div>
+    <div className="text-[9px] sm:text-xs font-bold text-muted-foreground uppercase tracking-wider">Años Exp.</div>
+  </div>
+  
+  {/* Tarjeta 2 */}
+  <div className="flex flex-col items-center justify-center text-center bg-background/50 p-2 sm:p-4 rounded-xl border border-border">
+    <div className="text-xl sm:text-4xl font-black text-primary mb-1 whitespace-nowrap">8 de 10</div>
+    <div className="text-[9px] sm:text-xs font-bold text-muted-foreground uppercase tracking-wider leading-tight">
+      Clientes <br className="hidden sm:block" />Nos Prefieren
+    </div>
+  </div>
+  
+  {/* Tarjeta 3 */}
+  <div className="flex flex-col items-center justify-center text-center bg-background/50 p-2 sm:p-4 rounded-xl border border-border">
+    <div className="text-xl sm:text-4xl font-black text-primary mb-1 whitespace-nowrap">100%</div>
+    <div className="text-[9px] sm:text-xs font-bold text-muted-foreground uppercase tracking-wider">Originales</div>
+  </div>
+  
+</div>
             </div>
           </div>
         </div>

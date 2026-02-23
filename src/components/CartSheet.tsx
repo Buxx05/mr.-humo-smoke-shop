@@ -29,7 +29,7 @@ const CartSheet = ({ open, onOpenChange }: CartSheetProps) => {
 
     const mensaje = `Hola MR. HUMO! 🔥\nQuiero hacer el siguiente pedido:\n\n🛒 *PRODUCTOS:*\n${productLines}\n\n💰 *TOTAL:* S/ ${total.toFixed(2)}\n\n📝 *MIS DATOS:*\n👤 Nombre: ${nombre}\n📱 Teléfono: ${telefono}\n📍 Distrito: ${distrito}`;
 
-    const url = `https://wa.me/51999888777?text=${encodeURIComponent(mensaje)}`;
+    const url = `https://wa.me/51935342437?text=${encodeURIComponent(mensaje)}`;
     window.open(url, "_blank");
     clearCart();
     

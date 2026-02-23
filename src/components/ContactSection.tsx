@@ -5,23 +5,23 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { MapPin, Phone, Clock, Send, Store, MessageCircle } from "lucide-react";
 
-// --- CONFIGURACIÓN DE TUS TIENDAS ---
+// --- CONFIGURACIÓN DE TUS TIENDAS ACTUALIZADA ---
 const STORES = [
   {
-    name: "Sede Av. Revolución",
-    address: "Av. Revolucion 1824\nVilla el Salvador, Lima",
+    name: "Sede Principal",
+    address: "Villa EL Salvador\nLIMA 42",
     schedule: "Lun - Dom: 9:30 - 21:00\nSábados: 9:30 - 22:00",
-    mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3899.988019623838!2d-76.938833!3d-12.213194!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDEyJzQ3LjUiUyA3NsKwNTYnMTkuOCJX!5e0!3m2!1ses!2spe!4v1620000000000!5m2!1ses!2spe" // Placeholder de Google Maps
+    mapSrc: "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d7799.133204468136!2d-76.94020580713494!3d-12.209843881106512!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105b9cd2f3f76a1%3A0xc07a2c07dbe85aa7!2sMr.%20HUMO%20%2F%20CIGARROS%20ELECTR%C3%93NICOS%20Y%20TABAQUERIA!5e0!3m2!1sen!2spe!4v1771812080125!5m2!1sen!2spe" // <-- URL de la Tienda 1
   },
   {
-    name: "Sede 2 (VES)",
-    address: "Av. Principal 123\nVilla el Salvador, Lima", 
+    name: "Sede Secundaria",
+    address: "Villa EL Salvador\nLIMA 42", 
     schedule: "Lun - Dom: 9:30 - 21:00\nSábados: 9:30 - 22:00",
-    mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3899.988019623838!2d-76.938833!3d-12.213194!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTLCsDEyJzQ3LjUiUyA3NsKwNTYnMTkuOCJX!5e0!3m2!1ses!2spe!4v1620000000000!5m2!1ses!2spe"
+    mapSrc: "https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d3899.4964492296626!2d-76.93551720516791!3d-12.21461733814486!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x9105bd825bcf1661%3A0x82243879b383989!2sMR.%20HUMO%20VILLA%20EL%20SALVADOR%20%2F%20VAPER%20Y%20TABQUERIA!5e0!3m2!1sen!2spe!4v1771812113845!5m2!1sen!2spe" // <-- URL de la Tienda 2
   }
 ];
 
-const WHATSAPP_NUMBER = "51986170583";
+const WHATSAPP_NUMBER = "51935342437";
 
 const ContactSection = () => {
   const [loading, setLoading] = useState(false);
@@ -58,7 +58,7 @@ const ContactSection = () => {
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 max-w-7xl mx-auto">
           
-          {/* COLUMNA 1: LISTA DE TIENDAS (Toma 7 columnas en PC) */}
+          {/* COLUMNA 1: LISTA DE TIENDAS */}
           <div className="lg:col-span-7 space-y-6">
             {STORES.map((store, index) => (
               <Card key={index} className="border-border bg-card shadow-lg overflow-hidden hover:border-primary/50 transition-colors group">
@@ -92,15 +92,14 @@ const ContactSection = () => {
                         Cómo Llegar
                       </Button>
                     </div>
-                    {/* Mapa Miniatura */}
-                    <div className="h-48 sm:h-auto sm:w-2/5 border-t sm:border-t-0 sm:border-l border-border/50 overflow-hidden relative">
+                    {/* Mapa Miniatura con el iframe de React correcto */}
+                    <div className="h-48 sm:h-auto sm:w-2/5 border-t sm:border-t-0 sm:border-l border-border/50 overflow-hidden relative bg-secondary/20">
                       <iframe 
                         src={store.mapSrc} 
-                        width="100%" 
-                        height="100%" 
                         style={{ border: 0 }} 
                         allowFullScreen={true} 
                         loading="lazy" 
+                        referrerPolicy="no-referrer-when-downgrade"
                         title={`Mapa ${store.name}`}
                         className="grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-500 absolute inset-0 w-full h-full"
                       ></iframe>

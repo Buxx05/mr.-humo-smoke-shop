@@ -96,8 +96,12 @@ const Catalog = () => {
 
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
-    // Subir al inicio del catálogo suavemente
-    window.scrollTo({ top: 100, behavior: 'smooth' });
+    
+    // Le damos a React 100ms para renderizar la nueva cuadrícula antes de hacer scroll.
+    // Esto evita que el cambio de altura de la página rompa la animación de subida.
+    setTimeout(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, 100);
   };
 
   return (
