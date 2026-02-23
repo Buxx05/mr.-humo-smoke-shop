@@ -31,14 +31,14 @@ const About = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             
             {/* Imagen / Visual Abstracto (Para cuando no hay foto aún) */}
-            <div className="relative group w-full max-w-md mx-auto lg:max-w-none">
+             <div className="relative group w-full max-w-md mx-auto lg:max-w-none">
               <div className="absolute -inset-1 md:-inset-2 bg-gradient-to-r from-primary to-green-600 rounded-3xl blur-xl opacity-20 group-hover:opacity-40 transition duration-1000"></div>
-              <div className="relative bg-card border-2 border-border/50 rounded-2xl overflow-hidden aspect-square shadow-2xl flex flex-col items-center justify-center p-8 text-center">
-                <div className="bg-primary/10 p-6 rounded-full mb-6 group-hover:scale-110 transition-transform duration-500 shadow-[0_0_30px_rgba(153,204,51,0.2)]">
-                  <Flame className="w-16 h-16 text-primary" />
-                </div>
-                <h3 className="font-heading font-black text-2xl text-foreground mb-2">MR. HUMO</h3>
-                <p className="text-sm text-muted-foreground font-medium">Más que una tienda, un estilo de vida.</p>
+              <div className="relative bg-card border-2 border-border/50 rounded-2xl overflow-hidden aspect-square shadow-2xl flex items-center justify-center">
+                <img
+                  src="/nosotros.jpg"
+                  alt="Nosotros"
+                  className="w-full h-full object-cover"
+                />
               </div>
             </div>
 
