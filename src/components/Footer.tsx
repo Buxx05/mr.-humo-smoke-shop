@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { Facebook, Instagram, MapPin, Phone, ChevronRight, Store, Clock } from "lucide-react";
+import { Facebook, Instagram, Music2, MapPin, Phone, ChevronRight, Store, Clock } from "lucide-react";
 
 const Footer = () => {
   const WHATSAPP_NUMBER = "51986170583";
@@ -28,11 +28,14 @@ const Footer = () => {
             
             {/* Redes Sociales */}
             <div className="flex gap-3 pt-2">
-              <a href="#" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300 hover:scale-110 hover:shadow-[0_0_15px_rgba(153,204,51,0.3)]">
+              <a href="https://www.instagram.com/mr.humo_peru/" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300 hover:scale-110 hover:shadow-[0_0_15px_rgba(153,204,51,0.3)]">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="#" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300 hover:scale-110 hover:shadow-[0_0_15px_rgba(153,204,51,0.3)]">
+              <a href="https://www.facebook.com/profile.php?id=100076200017322&sk=about" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300 hover:scale-110 hover:shadow-[0_0_15px_rgba(153,204,51,0.3)]">
                 <Facebook className="w-5 h-5" />
+              </a>
+              <a href="https://www.tiktok.com/@mrhumo.pe" target="_blank" rel="noreferrer" className="w-10 h-10 rounded-full bg-zinc-900 border border-zinc-800 flex items-center justify-center text-zinc-400 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all duration-300 hover:scale-110 hover:shadow-[0_0_15px_rgba(153,204,51,0.3)]">
+                <Music2 className="w-5 h-5" />
               </a>
             </div>
           </div>

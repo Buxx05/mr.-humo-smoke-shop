@@ -202,8 +202,13 @@ const Inventory = () => {
 
   const confirmDeleteProduct = async () => {
     if (pendingDeleteId === null) return;
-    await supabase.from("products").delete().eq("id", pendingDeleteId);
-    fetchProducts();
+    const { error } = await supabase.from("products").delete().eq("id", pendingDeleteId);
+    if (error) {
+      toast.error("Error al eliminar producto: " + error.message);
+    } else {
+      toast.success("Producto eliminado");
+      fetchProducts();
+    }
     setDeleteDialogOpen(false);
     setPendingDeleteId(null);
   };
@@ -267,8 +272,13 @@ const Inventory = () => {
 
   const confirmDeleteCombo = async () => {
     if (pendingDeleteId === null) return;
-    await supabase.from("combos").delete().eq("id", pendingDeleteId);
-    fetchCombos();
+    const { error } = await supabase.from("combos").delete().eq("id", pendingDeleteId);
+    if (error) {
+      toast.error("Error al eliminar combo: " + error.message);
+    } else {
+      toast.success("Combo eliminado");
+      fetchCombos();
+    }
     setDeleteDialogOpen(false);
     setPendingDeleteId(null);
   };

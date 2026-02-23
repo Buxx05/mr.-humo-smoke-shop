@@ -60,12 +60,12 @@ const About = () => {
               {/* Stats - Ajustado para no aplastarse en celulares */}
               <div className="grid grid-cols-3 gap-2 sm:gap-6 pt-6 border-t border-border/50">
                 <div className="bg-background/50 p-3 sm:p-4 rounded-xl border border-border">
-                  <div className="text-2xl sm:text-4xl font-black text-primary mb-1">3+</div>
+                  <div className="text-2xl sm:text-4xl font-black text-primary mb-1">7+</div>
                   <div className="text-[10px] sm:text-xs font-bold text-muted-foreground uppercase tracking-wider">Años Exp.</div>
                 </div>
                 <div className="bg-background/50 p-3 sm:p-4 rounded-xl border border-border">
-                  <div className="text-2xl sm:text-4xl font-black text-primary mb-1">5k+</div>
-                  <div className="text-[10px] sm:text-xs font-bold text-muted-foreground uppercase tracking-wider">Clientes</div>
+                  <div className="text-2xl sm:text-4xl font-black text-primary mb-1">8/10</div>
+                  <div className="text-[10px] sm:text-xs font-bold text-muted-foreground uppercase tracking-wider">Prefiere MrHumo</div>
                 </div>
                 <div className="bg-background/50 p-3 sm:p-4 rounded-xl border border-border">
                   <div className="text-2xl sm:text-4xl font-black text-primary mb-1">100%</div>
