@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from "react";
 
 export interface CartItem {
   id: number;
@@ -21,19 +21,24 @@ interface CartContextType {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
+const CART_STORAGE_KEY = "carrito_mr_humo"; // Clave única para tu tienda
+
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [items, setItems] = useState<CartItem[]>(() => {
     try {
-      const saved = localStorage.getItem("carrito");
+      const saved = localStorage.getItem(CART_STORAGE_KEY);
       return saved ? JSON.parse(saved) : [];
     } catch {
       return [];
     }
   });
   const [justAdded, setJustAdded] = useState(false);
+  
+  // Usamos useRef para limpiar el temporizador si el usuario hace clics muy rápidos
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    localStorage.setItem("carrito", JSON.stringify(items));
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(items));
   }, [items]);
 
   const addItem = useCallback((item: Omit<CartItem, "cantidad">, cantidad = 1) => {
@@ -44,8 +49,12 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
       }
       return [...prev, { ...item, cantidad }];
     });
+    
     setJustAdded(true);
-    setTimeout(() => setJustAdded(false), 300);
+    
+    // Limpiamos el temporizador anterior si existe antes de crear uno nuevo
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    timeoutRef.current = setTimeout(() => setJustAdded(false), 300);
   }, []);
 
   const removeItem = useCallback((id: number) => {

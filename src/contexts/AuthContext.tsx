@@ -48,11 +48,16 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         .eq('id', userId)
         .single();
         
-      if (!error && data) {
+      if (error) {
+        throw error; // Forzamos el salto al catch si Supabase devuelve un error oficial
+      }
+      
+      if (data) {
         setRole(data.role as any);
       }
     } catch (err) {
-      console.error("Error obteniendo rol:", err);
+      console.error("Error obteniendo rol. Asignando 'cliente' por seguridad:", err);
+      setRole('cliente'); // 🔥 FALLBACK: Si hay un error de red, no rompemos la app, asume que es cliente.
     } finally {
       setLoading(false);
     }
